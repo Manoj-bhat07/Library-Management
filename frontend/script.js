@@ -4,10 +4,9 @@
    ============================================================ */
 
 // Change this if your backend runs on a different port.
-const API_BASE = "http://localhost:8080/api/books";
-const STUDENT_API_BASE = "http://localhost:8080/api/students";
-const ISSUE_API_BASE = "http://localhost:8080/api/issues";
-
+const API_BASE = "https://library-management-production-a63aa3cb.up.railway.app/api/books";
+const STUDENT_API_BASE = "https://library-management-production-a63aa3cb.up.railway.app/api/students";
+const ISSUE_API_BASE = "https://library-management-production-a63aa3cb.up.railway.app/api/issues";
 /* ---------------- Application state ---------------- */
 const state = {
     books: [],
