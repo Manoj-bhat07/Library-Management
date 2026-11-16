@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Library | Library Management System</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-shell">
+        <aside class="sidebar">
+            <a class="brand" href="#" aria-label="College Library home">
+                <span class="brand-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                        <path d="M8 7h8M8 11h6"></path>
+                    </svg>
+                </span>
+                <span class="brand-copy">
+                    <strong>College Library</strong>
+                    <small>Management portal</small>
+                </span>
+            </a>
+
+            <span class="sidebar-label">Workspace</span>
+            <nav class="primary-nav" aria-label="Main navigation">
+                <button type="button" class="nav-tab is-active" id="booksNavBtn" aria-current="page">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                    <span>Books</span>
+                </button>
+                <button type="button" class="nav-tab" id="studentsNavBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="10" cy="7" r="4"></circle>
+                        <path d="M20 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    <span>Students</span>
+                </button>
+                <button type="button" class="nav-tab" id="issuesNavBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M8 6h13M8 12h13M8 18h13"></path>
+                        <path d="M3 6h.01M3 12h.01M3 18h.01"></path>
+                    </svg>
+                    <span>Issue / Return</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <span class="sidebar-status-dot"></span>
+                <span><strong>Library system</strong><small>Inventory workspace</small></span>
+            </div>
+        </aside>
+
+        <div class="workspace">
+            <header class="topbar">
+                <div class="page-heading">
+                    <span class="page-eyebrow">COLLEGE LIBRARY</span>
+                    <h1 id="workspaceTitle">Books overview</h1>
+                </div>
+                <div class="header-stat">
+                    <span class="stat-label">Total Books</span>
+                    <span class="stat-value" id="totalCount">—</span>
+                </div>
+            </header>
+
+            <div class="page">
+
+        <section class="view-section" id="booksSection">
+        <section class="dashboard" aria-label="Inventory overview">
+            <div class="metric-grid">
+                <article class="metric-card">
+                    <span class="metric-label">Catalog titles</span>
+                    <strong class="metric-value" id="catalogTitleCount">—</strong>
+                    <span class="metric-note">Unique book records</span>
+                </article>
+                <article class="metric-card">
+                    <span class="metric-label">Total copies</span>
+                    <strong class="metric-value" id="totalCopyCount">—</strong>
+                    <span class="metric-note">Across all titles</span>
+                </article>
+                <article class="metric-card metric-warning">
+                    <span class="metric-label">Low stock</span>
+                    <strong class="metric-value" id="lowStockCount">—</strong>
+                    <span class="metric-note">1–2 copies remaining</span>
+                </article>
+                <article class="metric-card metric-danger">
+                    <span class="metric-label">Out of stock</span>
+                    <strong class="metric-value" id="outOfStockCount">—</strong>
+                    <span class="metric-note">Titles with no copies</span>
+                </article>
+            </div>
+
+            <section class="category-panel" aria-labelledby="categorySummaryTitle">
+                <div class="category-panel-heading">
+                    <h2 id="categorySummaryTitle">Books by category</h2>
+                    <p>Number of titles in each category</p>
+                </div>
+                <div class="category-breakdown" id="categoryBreakdown">
+                    <p class="category-empty">Category totals will appear when books load.</p>
+                </div>
+            </section>
+        </section>
+
+        <!-- ================= MAIN CARD ================= -->
+        <main class="card">
+
+            <div class="toolbar">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <path d="m20 20-3.5-3.5"></path>
+                    </svg>
+                    <input type="search" id="searchInput" placeholder="Search by book title or author..."
+                           aria-label="Search books by title or author" autocomplete="off">
+                    <button type="button" class="clear-search" id="clearSearch" aria-label="Clear search" hidden>
+                        &times;
+                    </button>
+                </div>
+
+                <button type="button" class="btn btn-primary" id="addBookBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+                         stroke-linecap="round" aria-hidden="true">
+                        <path d="M12 5v14M5 12h14"></path>
+                    </svg>
+                    Add Book
+                </button>
+            </div>
+
+            <div class="browse-controls" aria-label="Catalog display options">
+                <label class="control-field">
+                    <span>Category</span>
+                    <select id="categoryFilter" aria-label="Filter books by category">
+                        <option value="">All categories</option>
+                    </select>
+                </label>
+                <label class="control-field">
+                    <span>Sort by</span>
+                    <select id="sortBooks" aria-label="Sort books">
+                        <option value="default">Default order</option>
+                        <option value="title-asc">Title (A–Z)</option>
+                        <option value="author-asc">Author (A–Z)</option>
+                        <option value="quantity-asc">Quantity (low to high)</option>
+                        <option value="quantity-desc">Quantity (high to low)</option>
+                    </select>
+                </label>
+                <div class="view-toggle" role="group" aria-label="Book display style">
+                    <button type="button" class="view-button is-active" id="listViewBtn"
+                            aria-label="List view" aria-pressed="true" title="List view">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" aria-hidden="true">
+                            <path d="M8 6h13M8 12h13M8 18h13"></path>
+                            <path d="M3 6h.01M3 12h.01M3 18h.01"></path>
+                        </svg>
+                    </button>
+                    <button type="button" class="view-button" id="gridViewBtn"
+                            aria-label="Grid view" aria-pressed="false" title="Grid view">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                             aria-hidden="true">
+                            <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                            <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                            <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                            <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-meta">
+                <h2>All Books</h2>
+                <span class="result-count" id="resultCount"></span>
+            </div>
+
+            <div class="table-wrap">
+                <table class="book-table">
+                    <thead>
+                        <tr>
+                            <th class="col-id">ID</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Category</th>
+                            <th class="col-qty">Quantity</th>
+                            <th class="col-actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookTableBody">
+                        <!-- Rows are rendered by script.js -->
+                    </tbody>
+                </table>
+
+                <div class="book-grid" id="bookGrid" hidden></div>
+
+                <!-- Loading state -->
+                <div class="state-box" id="loadingState">
+                    <div class="spinner" aria-hidden="true"></div>
+                    <p>Loading books...</p>
+                </div>
+
+                <!-- Empty state -->
+                <div class="state-box" id="emptyState" hidden>
+                    <div class="state-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 id="emptyTitle">No books yet</h3>
+                    <p id="emptyText">Click "Add Book" to add your first book to the library.</p>
+                </div>
+
+                <!-- Error state -->
+                <div class="state-box" id="errorState" hidden>
+                    <div class="state-icon error-icon" aria-hidden="true">!</div>
+                    <h3>Could not load books</h3>
+                    <p id="errorText">Please make sure the backend is running on port 8080.</p>
+                    <button type="button" class="btn btn-secondary" id="retryBtn">Try Again</button>
+                </div>
+            </div>
+        </main>
+        </section>
+
+        <section class="student-section" id="studentsSection" aria-labelledby="studentsTitle" hidden>
+            <div class="student-card">
+                <div class="student-toolbar">
+                    <div class="student-search">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" aria-hidden="true">
+                            <circle cx="11" cy="11" r="7"></circle>
+                            <path d="m20 20-3.5-3.5"></path>
+                        </svg>
+                        <input type="search" id="studentSearchInput" placeholder="Search by student ID or name..."
+                               aria-label="Search students by ID or name" autocomplete="off">
+                    </div>
+                    <button type="button" class="btn btn-primary" id="addStudentBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+                             stroke-linecap="round" aria-hidden="true">
+                            <path d="M12 5v14M5 12h14"></path>
+                        </svg>
+                        Add Student
+                    </button>
+                </div>
+
+                <div class="student-meta">
+                    <div>
+                        <h2 id="studentsTitle">Students</h2>
+                        <p>Manage student IDs and names</p>
+                    </div>
+                    <span class="result-count" id="studentResultCount"></span>
+                </div>
+
+                <div class="student-table-wrap">
+                    <table class="student-table">
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Full name</th>
+                                <th class="student-actions-heading">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentTableBody"></tbody>
+                    </table>
+
+                    <div class="state-box" id="studentLoadingState" hidden>
+                        <div class="spinner" aria-hidden="true"></div>
+                        <p>Loading students...</p>
+                    </div>
+                    <div class="state-box" id="studentEmptyState" hidden>
+                        <div class="state-icon" aria-hidden="true">S</div>
+                        <h3 id="studentEmptyTitle">No students yet</h3>
+                        <p id="studentEmptyText">Add a student to start building the student directory.</p>
+                    </div>
+                    <div class="state-box" id="studentErrorState" hidden>
+                        <div class="state-icon error-icon" aria-hidden="true">!</div>
+                        <h3>Could not load students</h3>
+                        <p id="studentErrorText">Please check that the backend is running.</p>
+                        <button type="button" class="btn btn-secondary" id="retryStudentsBtn">Try Again</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="issue-section" id="issuesSection" aria-labelledby="issuesTitle" hidden>
+            <div class="issue-card">
+                <div class="issue-toolbar">
+                    <div class="issue-search">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" aria-hidden="true">
+                            <circle cx="11" cy="11" r="7"></circle>
+                            <path d="m20 20-3.5-3.5"></path>
+                        </svg>
+                        <input type="search" id="issueSearchInput" placeholder="Search by book or student..."
+                               aria-label="Search issue transactions by book or student" autocomplete="off">
+                    </div>
+                    <button type="button" class="btn btn-primary" id="newIssueBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+                             stroke-linecap="round" aria-hidden="true">
+                            <path d="M12 5v14M5 12h14"></path>
+                        </svg>
+                        Issue Book
+                    </button>
+                </div>
+                <div class="issue-meta">
+                    <div>
+                        <h2 id="issuesTitle">Issue transactions</h2>
+                        <p>14-day loan period · Returning a book updates available stock</p>
+                    </div>
+                    <span class="result-count" id="issueResultCount"></span>
+                </div>
+                <div class="issue-table-wrap">
+                    <table class="issue-table" id="issueTable">
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Book</th>
+                                <th>Issued</th>
+                                <th>Due</th>
+                                <th>Status</th>
+                                <th class="issue-actions-heading">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="issueTableBody"></tbody>
+                    </table>
+                    <div class="state-box" id="issueLoadingState" hidden>
+                        <div class="spinner" aria-hidden="true"></div>
+                        <p>Loading issue transactions...</p>
+                    </div>
+                    <div class="state-box" id="issueEmptyState" hidden>
+                        <div class="state-icon" aria-hidden="true">↗</div>
+                        <h3 id="issueEmptyTitle">No issue transactions</h3>
+                        <p id="issueEmptyText">Issue a book to a registered student to see it here.</p>
+                    </div>
+                    <div class="state-box" id="issueErrorState" hidden>
+                        <div class="state-icon error-icon" aria-hidden="true">!</div>
+                        <h3>Could not load transactions</h3>
+                        <p id="issueErrorText">Please check that the backend is running.</p>
+                        <button type="button" class="btn btn-secondary" id="retryIssuesBtn">Try Again</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>Library Management System &middot; Spring Boot + MySQL + REST API</p>
+        </footer>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= ISSUE BOOK MODAL ================= -->
+    <div class="modal-overlay" id="issueModal" role="dialog" aria-modal="true"
+         aria-labelledby="issueModalTitle" hidden>
+        <div class="modal modal-small issue-form-modal">
+            <div class="modal-header issue-modal-header">
+                <div>
+                    <h2 id="issueModalTitle">Issue a Book</h2>
+                    <p>Select a student and an available book. Due date is 14 days from today.</p>
+                </div>
+                <button type="button" class="icon-btn" id="closeIssueModalBtn" aria-label="Close dialog">&times;</button>
+            </div>
+            <form id="issueForm">
+                <div class="issue-form-fields">
+                    <div class="form-group">
+                        <label for="issueStudentSelect">Student <span class="required">*</span></label>
+                        <select id="issueStudentSelect" required>
+                            <option value="">Select a student</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="issueBookSelect">Available book <span class="required">*</span></label>
+                        <select id="issueBookSelect" required>
+                            <option value="">Select a book</option>
+                        </select>
+                    </div>
+                </div>
+                <p class="issue-form-hint" id="issueFormHint"></p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" id="cancelIssueBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="confirmIssueBtn">
+                        <span id="confirmIssueBtnText">Confirm Issue</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= STUDENT MODAL ================= -->
+    <div class="modal-overlay" id="studentModal" role="dialog" aria-modal="true"
+         aria-labelledby="studentModalTitle" hidden>
+        <div class="modal modal-small student-form-modal">
+            <div class="modal-header student-modal-header">
+                <div>
+                    <h2 id="studentModalTitle">Add Student</h2>
+                    <p id="studentModalSubtitle">Enter the student's details.</p>
+                </div>
+                <button type="button" class="icon-btn" id="closeStudentModalBtn" aria-label="Close dialog">&times;</button>
+            </div>
+            <form id="studentForm" novalidate>
+                <div class="student-form-fields">
+                    <div class="form-group">
+                        <label for="studentId">Student ID <span class="required">*</span></label>
+                        <input type="text" id="studentId" name="studentId" maxlength="30"
+                               placeholder="e.g. STU-2026-001" autocomplete="off">
+                        <small class="field-error" id="studentIdError"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentName">Full name <span class="required">*</span></label>
+                        <input type="text" id="studentName" name="name" maxlength="100"
+                               placeholder="e.g. Asha Rao" autocomplete="off">
+                        <small class="field-error" id="studentNameError"></small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" id="cancelStudentBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveStudentBtn">
+                        <span id="saveStudentBtnText">Save Student</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= STUDENT DELETE CONFIRMATION ================= -->
+    <div class="modal-overlay" id="deleteStudentModal" role="dialog" aria-modal="true"
+         aria-labelledby="deleteStudentTitle" hidden>
+        <div class="modal modal-small">
+            <div class="delete-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+                    <path d="M10 11v6M14 11v6"></path>
+                </svg>
+            </div>
+            <h2 id="deleteStudentTitle">Delete this student?</h2>
+            <p>Are you sure you want to delete <strong id="deleteStudentName"></strong>?
+               This action cannot be undone.</p>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-ghost" id="cancelStudentDeleteBtn">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmStudentDeleteBtn">Delete Student</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= ADD / EDIT MODAL ================= -->
+    <div class="modal-overlay" id="bookModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+        <div class="modal">
+            <div class="modal-header">
+                <div>
+                    <h2 id="modalTitle">Add New Book</h2>
+                    <p id="modalSubtitle">Enter the details of the book below.</p>
+                </div>
+                <button type="button" class="icon-btn" id="closeModalBtn" aria-label="Close dialog">&times;</button>
+            </div>
+
+            <form id="bookForm" novalidate>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="title">Book Title <span class="required">*</span></label>
+                        <input type="text" id="title" name="title" maxlength="150"
+                               placeholder="e.g. Effective Java" autocomplete="off">
+                        <small class="field-error" id="titleError"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="author">Author <span class="required">*</span></label>
+                        <input type="text" id="author" name="author" maxlength="100"
+                               placeholder="e.g. Joshua Bloch" autocomplete="off">
+                        <small class="field-error" id="authorError"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Category <span class="required">*</span></label>
+                        <input type="text" id="category" name="category" maxlength="80"
+                               list="categoryOptions" placeholder="e.g. Programming" autocomplete="off">
+                        <datalist id="categoryOptions">
+                            <option value="Programming"></option>
+                            <option value="Fiction"></option>
+                            <option value="Non-Fiction"></option>
+                            <option value="Science"></option>
+                            <option value="Mathematics"></option>
+                            <option value="Biography"></option>
+                            <option value="History"></option>
+                            <option value="Reference"></option>
+                        </datalist>
+                        <small class="field-error" id="categoryError"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quantity">Quantity <span class="required">*</span></label>
+                        <input type="number" id="quantity" name="quantity" min="0" step="1"
+                               placeholder="e.g. 5">
+                        <small class="field-error" id="quantityError"></small>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveBtn">
+                        <span id="saveBtnText">Save Book</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= DELETE CONFIRMATION MODAL ================= -->
+    <div class="modal-overlay" id="deleteModal" role="dialog" aria-modal="true"
+         aria-labelledby="deleteTitle" hidden>
+        <div class="modal modal-small">
+            <div class="delete-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+                    <path d="M10 11v6M14 11v6"></path>
+                </svg>
+            </div>
+            <h2 id="deleteTitle">Delete this book?</h2>
+            <p>Are you sure you want to delete <strong id="deleteBookName"></strong>?
+               This action cannot be undone.</p>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-ghost" id="cancelDeleteBtn">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete Book</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notifications -->
+    <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
